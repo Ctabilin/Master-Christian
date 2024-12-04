@@ -1,0 +1,83 @@
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#!"><span style="color:red;">Arnold</span> & <span style="color:blue">TONY</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'home'%}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if '/shop' in request.path %}active{% endif %}" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item {% if request.path == '/shop/' %}active{% endif %}" href="{% url 'shop'%}">All Products</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item {% if request.path == '/category/Accessories/' %}active{% endif %}" href="{% url 'category' 'Accessories'%}">Accessories</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/category/Apparel/' %}active{% endif %}" href="{% url 'category' 'Apparel'%}">Apparel</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/category/Everyday Essentials/' %}active{% endif %}" href="{% url 'category' 'Everyday Essentials'%}">Everyday Essentials</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/category/Outdoor Gear/' %}active{% endif %}" href="{% url 'category' 'Outdoor Gear'%}">Outdoor Gear</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if '/customize' in request.path %}active{% endif %}" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Customize</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item {% if request.path == '/customize/' %}active{% endif %}" href="{% url 'customize'%}">Mug</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/customize_tshirt/' %}active{% endif %}" href="{% url 'customize_tshirt'%}">T-Shirt</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/customize_bag/' %}active{% endif %}" href="{% url 'customize_bag'%}">Bag</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/customize_fan/' %}active{% endif %}" href="{% url 'customize_fan'%}">Fan</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/customize_mpad/' %}active{% endif %}" href="{% url 'customize_mpad'%}">Mouse Pad</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    {% if user.is_authenticated %}
+                    <a class="nav-link dropdown-toggle {% if '/profile' in request.path %}active{% endif %}" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item {% if request.path == '/update_user/' %}active{% endif %}" href="{% url 'update_user'%}">User Profile</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/update_info/' %}active{% endif %}" href="{% url 'update_info'%}">User Info</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/logout/' %}active{% endif %}" href="{% url 'logout'%}">Logout</a></li>
+                    </ul>
+                    {% else %}
+                    <a class="nav-link dropdown-toggle {% if '/login' in request.path %}active{% endif %}" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item {% if request.path == '/login/' %}active{% endif %}" href="{% url 'login'%}">Login</a></li>
+                        <li><a class="dropdown-item {% if request.path == '/register/' %}active{% endif %}" href="{% url 'register' %}">Sign Up</a></li>
+                    </ul>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/search/' %}active{% endif %}" href="{% url 'search'%}"><i class="fa-solid fa-magnifying-glass"></i></a>
+                </li>
+            </ul>
+
+            {% if user.is_superuser %}
+            <li class="nav-item dropdown" style="list-style:none; margin-right:20px;">
+                <a class="nav-link dropdown-toggle {% if '/orders' in request.path %}active{% endif %}" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Orders</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item {% if request.path == '/shipped_dash/' %}active{% endif %}" href="{% url 'shipped_dash'%}">Shipped</a></li>
+                    <li><a class="dropdown-item {% if request.path == '/not_shipped_dash/' %}active{% endif %}" href="{% url 'not_shipped_dash' %}">Unshipped</a></li>
+                    <li><a class="dropdown-item {% if request.path == '/sales_report/' %}active{% endif %}" href="{% url 'sales_report' %}">Sales Report</a></li>
+                </ul>
+            </li>
+            {% else %}
+            <li class="nav-item" style="list-style: none; margin-right:20px;">
+                <a class="nav-link {% if request.path == '/user_order/' %}active{% endif %}" aria-current="page" href="{% url 'user_order' %}">Order</a>
+            </li>
+            {% endif %}
+
+            <form class="d-flex">
+                <a href="{% url 'cart_summary'%}" class="btn btn-outline-dark">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>
+<script src="https://kit.fontawesome.com/93d39c8d9f.js" crossorigin="anonymous"></script>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+       
+
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Update Profile</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Update User Information</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="width: 50%;
+    margin: auto;
+    height: 1000px;
+    padding-top:100px">
+    
+<strong>Billing Information</strong>
+<form method="POST" action="{%url 'update_info'%}">
+    {%csrf_token%}
+    
+    {{form.as_p}}
+    <br><br>
+    <strong>Shipping Information</strong>
+    <br>
+    {{shipping_form.as_p}}
+    <br><br>
+    <button type="submit" class="btn btn-primary" style="width:100%; margin:auto;">Update Profile</button>
+  </form>
+
+
+</div>
+{% include 'footer.html' %}
+{%endblock%}

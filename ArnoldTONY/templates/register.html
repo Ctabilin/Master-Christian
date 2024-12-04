@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+       
+
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Sign Up</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Welcome to Arnold&TONY</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="width: 50%;
+    margin: auto;
+    height: 800px;
+    padding-top:100px">
+    
+<form method="POST" action="{%url 'register'%}">
+    {%csrf_token%}
+    
+    {{form.as_p}}
+    <br><br>
+    <button type="submit" class="btn btn-primary" style="width:100%; margin:auto;">Sign me up</button>
+  </form>
+</div>
+{% include 'footer.html' %}
+{%endblock%}

@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<style>
+    /* Main container for canvas and controls */
+    .main-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+        margin: 50px auto;
+        max-width: 1200px;
+    }
+
+    /* Controls container on the left */
+    .controls-container {
+        flex: 1;
+        max-width: 400px;
+    }
+
+    /* Style for the canvas container */
+    .canvas-container {
+        flex: 2;
+        height: 100vh; /* Adjust the height as needed */
+        background-image: url('{% static "Resources/fan.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    /* Optional: To add some content or other elements on top of the canvas */
+    .canvas-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 24px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Style for the draggable and resizable image */
+    .overlay-image,
+    .overlay-text {
+        position: absolute;
+        cursor: pointer;
+        z-index: 2;
+        border: 2px solid #fff; /* Optional border for visibility */
+    }
+
+    .overlay-image {
+        width: 150px; /* Adjust size as needed */
+    }
+
+    .overlay-text {
+        position: absolute;
+        top: 200px; /* Adjust this value to move the text down */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    /* Button container styles */
+    .button-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px; /* Adjust spacing between buttons */
+        margin-top: 20px; /* Add some margin on top */
+    }
+
+    /* Button styles */
+    .choose-image-button,
+    .remove-image-button,
+    .resize-button,
+    .move-button,
+    .add-text-button,
+    .remove-text-button,
+    .move-text-button,
+    .save-button {
+        flex-grow: 1;
+        padding: 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    /* Button hover effects */
+    .choose-image-button:hover,
+    .remove-image-button:hover,
+    .resize-button:hover,
+    .move-button:hover,
+    .add-text-button:hover,
+    .remove-text-button:hover,
+    .move-text-button:hover,
+    .save-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Hidden file input */
+    .file-input {
+        display: none;
+    }
+
+    /* Input text style */
+    .text-input {
+        margin: 10px auto;
+        padding: 5px;
+        width: 100%;
+        text-align: center;
+        display: block;
+    }
+
+    .choose-image-button {
+        background-color: #4CAF50; /* Green for adding */
+        color: white;
+    }
+    
+    .remove-image-button {
+        background-color: #f44336; /* Red for removing */
+        color: white;
+    }
+    
+    .resize-button {
+        background-color: #ffa500; /* Orange for resizing */
+        color: white;
+    }
+    
+    .move-button {
+        background-color: #2196F3; /* Blue for moving */
+        color: white;
+    }
+    
+    .add-text-button {
+        background-color: #4CAF50; /* Green for adding */
+        color: white;
+    }
+    
+    .remove-text-button {
+        background-color: #f44336; /* Red for removing */
+        color: white;
+    }
+    
+    .move-text-button {
+        background-color: #2196F3; /* Blue for moving */
+        color: white;
+    }
+    
+    .save-button {
+        background-color: #8E44AD; /* Purple for saving */
+        color: white;
+    }
+    
+    /* Add hover effect for all buttons */
+    button:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<!-- Header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Customize</h1>
+            <p class="lead fw-bold text-white mb-0" style="font-size: 1.5rem;">Create Your Own Custom Fan!</p>
+        </div>
+    </div>
+</header>
+
+
+<div class="main-container">
+    <!-- Canvas Section -->
+    <div class="canvas-container" id="canvas">
+        <div class="canvas-content"></div>
+
+        <!-- Draggable image -->
+        <img src="{% static 'Resources/aot logo.png' %}" class="overlay-image" alt="Upload Your designs" id="draggableImage">
+
+        <!-- Hidden file input -->
+        <input type="file" id="fileInput" class="file-input" accept="image/*">
+
+        <!-- Draggable text -->
+        <div class="overlay-text" id="draggableText" contenteditable="true">Your Text Here</div>
+    </div>
+
+
+
+    <!-- Controls Section -->
+    <div class="controls-container">
+        <h3>Controls for Image</h3>
+        <div class="button-container">
+            <button class="choose-image-button" id="chooseImageButton">Choose Image</button>
+            <button class="remove-image-button" id="removeImageButton">Remove Image</button>
+            <button class="resize-button" id="resizeButton">Resize Image</button>
+            <button class="move-button" id="moveButton">Move Image</button>
+        </div>
+        <br>
+        <h3>Controls for Text</h3>
+        <div class="button-container">
+            <button class="add-text-button" id="addTextButton">Add Text</button>
+            <button class="remove-text-button" id="removeTextButton">Remove Text</button>
+            <button class="move-text-button" id="moveTextButton">Move Text</button>
+        </div>
+        <input type="text" id="textInput" class="text-input" placeholder="Enter text here">
+        <br>
+        <h3>Save Your Custom Design</h3>
+        <div class="button-container">
+            <button class="save-button" id="saveButton">Save Image</button>
+        </div>
+    </div>
+</div>
+
+<!-- Include a draggable and moveable script -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+    const draggableImage = document.getElementById('draggableImage');
+    const draggableText = document.getElementById('draggableText');
+    const resizeButton = document.getElementById('resizeButton');
+    const moveButton = document.getElementById('moveButton');
+    const chooseImageButton = document.getElementById('chooseImageButton');
+    const fileInput = document.getElementById('fileInput');
+    const addTextButton = document.getElementById('addTextButton');
+    const removeTextButton = document.getElementById('removeTextButton');
+    const removeImageButton = document.getElementById('removeImageButton');
+    const saveButton = document.getElementById('saveButton');
+    const moveTextButton = document.getElementById('moveTextButton');
+    const textInput = document.getElementById('textInput');
+    const canvas = document.getElementById('canvas');
+
+    let isResizing = false;
+    let isMoving = false;
+    let isMovingText = false;
+    let currentWidth = draggableImage.width;
+    let currentHeight = draggableImage.height;
+    let offsetX, offsetY;
+
+    // Function to resize the image
+    function resizeImage() {
+        if (!isResizing) {
+            isResizing = true;
+            resizeButton.innerText = 'Stop Resizing'; // Change button text
+            currentWidth = draggableImage.width;
+            currentHeight = draggableImage.height;
+        } else {
+            isResizing = false;
+            resizeButton.innerText = 'Resize Image'; // Reset button text
+        }
+    }
+
+    // Function to move the image
+    function moveImage() {
+        if (!isMoving) {
+            isMoving = true;
+            moveButton.innerText = 'Stop Moving'; // Change button text
+        } else {
+            isMoving = false;
+            moveButton.innerText = 'Move Image'; // Reset button text
+        }
+    }
+
+    // When the resize button is clicked
+    resizeButton.addEventListener('click', function() {
+        resizeImage();
+    });
+
+    // When the move button is clicked
+    moveButton.addEventListener('click', function() {
+        moveImage();
+    });
+
+    // Function to move text
+    function moveText() {
+        if (!isMovingText) {
+            isMovingText = true;
+            moveTextButton.innerText = 'Stop Moving Text'; // Change button text
+        } else {
+            isMovingText = false;
+            moveTextButton.innerText = 'Move Text'; // Reset button text
+        }
+    }
+
+    // When the Move Text button is clicked
+    moveTextButton.addEventListener('click', function() {
+        moveText();
+    });
+
+    // Draggable image
+    draggableImage.addEventListener('mousedown', function(event) {
+        if (isResizing) {
+            const initialMouseX = event.clientX;
+            const initialMouseY = event.clientY;
+
+            function resize(event) {
+                const widthChange = event.clientX - initialMouseX;
+                const heightChange = event.clientY - initialMouseY;
+                
+                // Update image width and height
+                draggableImage.style.width = (currentWidth + widthChange) + 'px';
+                draggableImage.style.height = (currentHeight + heightChange) + 'px';
+            }
+
+            function stopResizing() {
+                document.removeEventListener('mousemove', resize);
+                document.removeEventListener('mouseup', stopResizing);
+                currentWidth = draggableImage.width;
+                currentHeight = draggableImage.height;
+            }
+
+            document.addEventListener('mousemove', resize);
+            document.addEventListener('mouseup', stopResizing);
+        }
+
+        if (isMoving) {
+            // When moving the image, save the initial mouse position
+            offsetX = event.clientX - draggableImage.offsetLeft;
+            offsetY = event.clientY - draggableImage.offsetTop;
+
+            function move(event) {
+                draggableImage.style.left = (event.clientX - offsetX) + 'px';
+                draggableImage.style.top = (event.clientY - offsetY) + 'px';
+            }
+
+            function stopMoving() {
+                document.removeEventListener('mousemove', move);
+                document.removeEventListener('mouseup', stopMoving);
+            }
+
+            document.addEventListener('mousemove', move);
+            document.addEventListener('mouseup', stopMoving);
+        }
+    });
+
+    // Draggable text
+    draggableText.addEventListener('mousedown', function(event) {
+        if (isMovingText) {
+            offsetX = event.clientX - draggableText.offsetLeft;
+            offsetY = event.clientY - draggableText.offsetTop;
+
+            function move(event) {
+                draggableText.style.left = (event.clientX - offsetX) + 'px';
+                draggableText.style.top = (event.clientY - offsetY) + 'px';
+            }
+
+            function stopMoving() {
+                document.removeEventListener('mousemove', move);
+                document.removeEventListener('mouseup', stopMoving);
+            }
+
+            document.addEventListener('mousemove', move);
+            document.addEventListener('mouseup', stopMoving);
+        }
+    });
+
+    // Choose image
+    chooseImageButton.addEventListener('click', function() {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                draggableImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Add text
+    addTextButton.addEventListener('click', function() {
+        const newText = textInput.value;
+        if (newText.trim() !== '') {
+            draggableText.innerText = newText;
+            draggableText.style.display = 'block'; // Ensure the text element is visible
+        }
+    });
+
+    // Remove text
+    removeTextButton.addEventListener('click', function() {
+        draggableText.innerText = ''; // Clear the text content
+        draggableText.style.display = 'none'; // Hide the text element
+    });
+
+    // Remove image
+    removeImageButton.addEventListener('click', function() {
+        draggableImage.src = '';
+    });
+
+    // Save as image
+    saveButton.addEventListener('click', function() {
+        // Temporarily remove styles
+        draggableImage.style.border = 'none';
+        draggableText.style.border = 'none';
+    
+        html2canvas(canvas).then(function(canvas) {
+            // Restore styles after saving
+            draggableImage.style.border = '2px solid #fff';
+            draggableText.style.border = '2px solid #fff';
+    
+            // Save the image
+            const link = document.createElement('a');
+            link.download = 'customized_image.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    });
+</script>
+{% include 'footer.html' %}
+{% endblock %}

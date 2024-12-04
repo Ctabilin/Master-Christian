@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Sales Report</h1>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="max-width: 900px; margin: 100px auto;">
+
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                <h4>Sales Report</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Sales Today: <strong>{{ sales_today|intcomma }}</strong></li>
+                <li class="list-group-item">Sales Yesterday: <strong>{{ sales_yesterday|intcomma }}</strong></li>
+                <li class="list-group-item">Sales This Month: <strong>{{ sales_monthly|intcomma }}</strong></li>
+                <li class="list-group-item">Sales This Year: <strong>{{ sales_yearly|intcomma }}</strong></li>
+            </ul>
+        </div>
+    
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                <h4>Customer Statistics</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Total Customers: <strong>{{ total_customers|intcomma }}</strong></li>
+                <li class="list-group-item">Customers Online: <strong>{{ customers_online|intcomma }}</strong></li>
+                <li class="list-group-item">New Customers Today: <strong>{{ new_customers_today|intcomma }}</strong></li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Sales chart for Sales Report -->
+    <canvas id="salesChart" style="width: 100%; height: 400px;"></canvas>
+
+    <div class="card" style="width: 100%; margin-top: 20px;">
+        <div class="card-header">
+            <h4>Best-Selling Products<h4>
+        </div>
+        <div class="card-body">
+            <!-- Best-selling products chart -->
+            <canvas id="bestSellingChart" style="width: 100%; height: 400px;"></canvas>
+
+            <table class="table table-striped mt-4">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Total Sold</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in best_selling_products %}
+                    <tr>
+                        <td>{{ product.product__name }}</td>
+                        <td>{{ product.total_sold|intcomma }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Prepare data for the first chart (Sales Report)
+    const salesLabels = ['Today', 'Yesterday', 'This Month', 'This Year'];
+    const salesData = [
+        {{ sales_today|default:0 }},
+        {{ sales_yesterday|default:0 }},
+        {{ sales_monthly|default:0 }},
+        {{ sales_yearly|default:0 }}
+    ];
+
+    // Create the sales report chart
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(salesCtx, {
+        type: 'bar',
+        data: {
+            labels: salesLabels,
+            datasets: [{
+                label: 'Sales',
+                data: salesData,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Prepare data for the second chart (Best Selling Products)
+    const productLabels = [{% for product in best_selling_products %}'{{ product.product__name }}',{% endfor %}];
+    const productData = [{% for product in best_selling_products %}{{ product.total_sold }},{% endfor %}];
+
+    // Create the best-selling products chart
+    const productCtx = document.getElementById('bestSellingChart').getContext('2d');
+    const bestSellingChart = new Chart(productCtx, {
+        type: 'bar',
+        data: {
+            labels: productLabels,
+            datasets: [{
+                label: 'Total Sold',
+                data: productData,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.raw.toLocaleString(); // Format number with commas
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString(); // Format y-axis numbers
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+{% include 'footer.html' %}
+{% endblock %}

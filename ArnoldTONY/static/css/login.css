@@ -1,0 +1,63 @@
+body{
+    margin: 0;
+}
+section{
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.login-container{
+    padding-top: 200px;
+}
+.login{
+    width: 520px;
+    height: 520px;
+    border-radius: 50px;
+    border: 1px solid rgba(175, 175, 175, 0.699);
+    margin: auto;
+    text-align: center;
+    font-size: 18px;
+    text-shadow: 1px 1px rgba(196, 194, 194, 0.692);
+    padding-top: 50px;
+    box-shadow: 1px 1px 10px 1px rgba(87, 86, 86, 0.685);
+    backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+
+}
+
+section input{
+    width: 80%;
+    display: block;
+    padding: 10px 20px;
+    margin:20px auto;
+    border: none;
+    border-radius: 20px;
+    margin: auto;
+    
+}
+section label{
+    margin-right: 330px;
+}
+h1{
+    text-align: center;
+}
+.btn{
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    border-radius: 20px;
+    background-color: black;
+    border: 1px solid black;
+    width: 88%;
+}
+
+.arnold{
+    color: red;
+}
+.tony{
+    color: blue;
+}
+.login a{
+    text-decoration: none;
+}

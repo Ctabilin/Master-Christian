@@ -1,0 +1,305 @@
+body{
+    margin: 0;
+}
+
+/*-------------------------------------header----------------------------*/
+
+main{
+    height: 600px;
+    margin-top: 170px;
+    width: 100%;
+}
+.row-1{
+    display: flex;
+    width: 90%;
+    margin: auto;
+    
+}
+.col-1{
+    flex-basis: 40%;
+    margin-right: 20px;
+    animation: scroll linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+}
+.title{
+    line-height: 50px;
+    position: relative;
+}
+
+.sentence{
+    line-height: 25px;
+    margin-bottom: 50px;
+    text-align: justify;
+}
+.col-1 a{
+    border: 1px solid black;
+    padding: 20px 40px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+}
+.col-1 a:hover{
+    cursor: pointer;
+    background-color: grey;
+}
+.col-2{
+    flex-basis: 60%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.col-2-container{
+    height: 400px;
+    width: 300px;
+    background-color: grey;
+    border-radius: 30px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.527);
+    overflow: hidden;
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+    
+}
+.col-2-1-bg{
+    background-image: url('/static/css/Resources/dtf.jpg');
+    background-position: center;
+    background-size: cover;
+    transition: transform 0.3s ease;
+}
+.col-2-2-bg{
+    background-image: url(Resources/tarpulin-bg.jpg);
+    background-position: center;
+    background-size: cover;
+    transition: transform 0.3s ease;
+
+    
+}
+.col-2-3-bg{
+    background-image: url(Resources/flyers.png);
+    background-position: center;
+    background-size: cover;
+    transition: transform 0.3s ease;
+}
+.col-2-text{
+    width: 100%;
+    height: 250px;
+    background-color: rgba(128, 128, 128, 0.61);
+    transform: translateY(250px);
+    transition: transform 0.3s ease-in-out;
+}
+.col-2-container:hover .col-2-text{
+    transform: translateY(0);
+    color: black;
+    cursor: pointer;
+}
+.col-2-container:hover{
+    transform: translateY(-5px);
+}
+.col-2-container h3{
+    text-align: center;
+    font-size: 50px;
+    color: white;
+}
+.col-2-container p{
+    margin: 0 50px;
+}
+
+/*-------------------------------main------------------------------*/
+
+.row-2{
+    width: 100%;
+    height: 300px;
+    background-color: blanchedalmond;
+}
+
+/*-------------------------------row-2------------------------------*/
+
+#row-3{
+    background-color: #F5F5F5;
+}
+.row-3{
+    width: 80%;
+    height: 620px;
+    margin: auto;
+    margin-top: 100px;
+    background-image: url(Resources/aot\ logo.png);
+    background-repeat: no-repeat;
+    background-position:center 100px;
+    background-size: 400px;
+}
+
+.row-3 h1{
+    text-align: center;
+    padding-top: 40px;
+    font-size: 40px;
+}
+
+.col-3-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    margin: 280px 40px;
+}
+
+.col-3{
+    width: 80%;
+    height: 270px;
+    text-align: center; 
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+}
+
+
+/*-------------------------------row-3------------------------------*/
+
+.row-4{
+    width: 100%;
+    margin: auto;
+    height: 100vh;
+    margin-top: 100px;
+    text-align: center;
+}
+.row-4 h1{
+    font-size: 35px;
+}
+.row-4 h3{
+    font-weight: normal;
+}
+.col-4{
+    width: 90%;
+    margin: auto;
+}
+.col-4-img{
+    height: 350px;
+    width: 90%;
+    min-width: 250px;
+    margin: auto;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.527);
+    overflow: hidden;
+    transition: 0.3s ease;
+}
+.col-4-text{
+    text-align: center;
+    font-size: 100px;
+}
+.col-4-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+}
+.c4-1{
+    background-image: url(Resources/lace.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.col-4-img:hover .c4-video{
+    display: block;
+    transform: translateY(20px);
+    width: 100%;
+}
+.col-4-img:hover{
+    background-image: none;
+    transform: translateY(-5px);
+}
+.c4-video{
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+.c4-2{
+    background-image: url(Resources/cap.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.c4-3{
+    background-image: url(Resources/mousepad.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.c4-4{
+    background-image: url(Resources/sintra.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.c4-5{
+    background-image: url(Resources/uv.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.c4-6{
+    font-size: 60px;
+    text-align: center;
+    background-color: transparent;
+    box-shadow: unset;
+}
+.c4-6 a{
+    text-decoration: none;
+    color: black;
+}
+/*-------------------------------row-4------------------------------*/
+
+#row-5{
+    background-color: #F5F5F5;
+    height: 900px;
+    width: 100%;
+}
+.row-5{
+    height: 900px;
+    width: 100%;
+    background-image:url(Resources/whyus.png);
+    background-position: center 120px;
+    background-size: 250px;
+    background-repeat: no-repeat;
+    margin-top: 50px;
+}
+.col-5{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+}
+.col-5-text{
+    height: 350px;
+    width: 350px;
+    margin-top: 300px;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-image: url(Resources/why-2.jpg);
+    background-position: center;
+    background-size: cover;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.623);
+    margin-left: 100px;
+    margin-right: 100px;
+}
+.col-5-mid{
+    transform: translateY(150px);
+    background-image:linear-gradient(rgba(238, 130, 238, 0.747),rgba(173, 216, 230, 0.74));
+}
+.col-5-top{
+    background-image: linear-gradient(rgba(0, 119, 255, 0.596),lightblue);
+}
+.col-5-bot{
+    background-image: linear-gradient(rgba(144, 238, 144, 0.534),rgba(255, 255, 0, 0.527));
+}
+/*-------------------------------row-5------------------------------*/
+
+
+
+
+

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+       
+
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Login</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Welcome to Arnold&TONY</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="width: 50%;
+    margin: auto;
+    height: auto;
+    padding-top:100px;
+    padding-bottom:100px">
+    
+<form method="POST" action="{%url 'login'%}">
+    {%csrf_token%}
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Username</label>
+      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username" placeholder="Example123">
+      
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="123456789">
+    </div>
+    
+    <button type="submit" class="btn btn-primary" style="width:100%; margin:auto;">Submit</button>
+  </form>
+</div>
+{% include 'footer.html' %}
+{%endblock%}

@@ -1,0 +1,135 @@
+{%extends 'base.html'%}
+{%block content%}
+{%load static%}
+<link href="{% static 'css/about.css' %}" rel="stylesheet" />
+
+<section id="row-1">
+    <div class="row-1">
+        <div class="row-1-col-1">
+            <h1>Who We Are</h1>
+            <p>Welcome to Arnold & Tony Printing Services, where creativity meets precision. We are a full-service printing company dedicated to delivering top-notch printing solutions for both businesses and individuals. Whether you need eye-catching business cards, vibrant posters, or large-scale banners, we’ve got you covered. Our mission is simple: to help you bring your ideas to life through high-quality print materials that make a lasting impression.</p>
+        </div>
+        <div class="row-1-col-2">
+            <img src="{% static 'Resources/aot logo.png'%}" alt="">
+        </div>
+    </div>
+</section>
+
+<section id="row-2">
+    <div class="row-2">
+        <div class="row-2-col-1">
+            <img src="{% static 'css/Resources/story.png'%}" alt="">
+        </div>
+        <div class="row-2-col-2">
+            <h2 class="title">Our Story</h2>
+            <p class="text">Founded in [year], [Your Business Name] was born from a passion for design and the desire to provide affordable, yet professional printing services to our community. Over the years, we’ve expanded our capabilities, invested in cutting-edge technology, and built a reputation for reliability and quality. From small start-ups to established corporations, we’ve partnered with clients from various industries to deliver exceptional results, project after project.</p>
+        </div>
+    </div>
+</section>
+
+<section id="row-3">
+    <div class="row-3">
+        <br><br>
+        <h2 class="title">Expertise & Technology</h2>
+        <p class="text">Our team of skilled professionals brings years of industry experience to every project. We are proud to use state-of-the-art printing technology, including the latest digital and offset printing machines, to ensure every piece meets the highest standards. Whether you need fast digital prints or intricate offset work for larger runs, we handle it all with attention to detail and precision.
+
+            Beyond our technical capabilities, our team thrives on creativity. We work closely with our clients to understand their vision and deliver tailored solutions. From graphic design to final production, we ensure your printed materials are not only high-quality but also aligned with your brand’s identity.</p>
+
+            <br><br>
+            <div class="row-3-img">
+                <div class="row-3-img-1" style="background-image: url('{% static 'css/Resources/sticker machine.png' %}');"></div>
+                <div class="row-3-img-2" style="background-image: url('{% static 'css/Resources/heat press.jpg' %}');"></div>
+                <div class="row-3-img-3" style="background-image: url('{% static 'css/Resources/dtf machine.webp' %}');"></div>
+                <div class="row-3-img-4" style="background-image: url('{% static 'css/Resources/subli.avif' %}');"></div>
+                <div class="row-3-img-5" style="background-image: url('{% static 'css/Resources/uv machine.jpg' %}');"></div>
+                <div class="row-3-img-6" style="background-image: url('{% static 'css/Resources/printer.jfif' %}');"></div>
+                <div class="row-3-img-7" style="background-image: url('{% static 'css/Resources/flyer printer.webp' %}');"></div>
+                <div class="row-3-img-8" style="background-image: url('{% static 'css/Resources/pc.webp' %}');"></div>
+            </div>
+    </div>
+</section>
+
+<section id="row-4">
+    <div class="row-4">
+        <div class="row-4-col-1">
+            <h2>Reach Us</h2>
+            <i class="fa-solid fa-location-dot"></i>
+            <p>TS-5 Odeon Mall Terminal CM Recto Ave. Rizal Ave. Brgy. 310 Zone 31 Sta.Cruz, Manila, Philippines</p>
+            <i class="fa-solid fa-phone"></i>
+            <p>0917 108 8218</p>
+            <i class="fa-solid fa-envelope"></i>
+            <p>Donarnold460@gmail.com</p>
+        </div>
+        <div class="row-4-col-2">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.915403339443!2d120.97950587590441!3d14.603894776994457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca038b9a71df%3A0xb3ba8ec409c357bb!2sOdeon%20Terminal%20Mall!5e0!3m2!1sen!2sph!4v1726763611946!5m2!1sen!2sph" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+
+<section id="testimony">
+    <h1>Testimony</h1>
+    <div class="testimony">
+        {% for review in reviews %}
+        <div class="testimony-container">
+            <h3>{{ review.name }} - {{ review.rating }}
+                    {% if review.rating == 5 %}⭐⭐⭐⭐⭐
+                    {% elif review.rating == 4 %}⭐⭐⭐⭐
+                    {% elif review.rating == 3 %}⭐⭐⭐
+                    {% elif review.rating == 2 %}⭐⭐
+                    {% else %}⭐gfgfg
+                    {% endif %}
+                </span>
+            </h3>
+            <p>{{ review.email }}</p>
+            <p>{{ review.comment }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="row-5">
+    <div class="row-5">
+        <div class="row-5-col-1">
+            <p class="WeWant">We Want to <br>Hear From You</p>
+        </div>
+
+        <div class="row-5-col-2">
+            <div class="row-5-col-2-border">
+                <div class="row-5-form">
+                    <h3>Your Feedback is Important to Us</h3>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p style="color:green">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+        
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {{ field.label_tag }}<br>
+                            {{ field }}<br>
+                            {% for error in field.errors %}
+                                <p style="color:red">{{ error }}</p><br>
+                            {% endfor %}
+                        {% endfor %}
+                        {% if user.is_authenticated %}
+                            <button type="submit">Submit</button>
+                        {% else %}
+                            <button type="button" disabled>Login to Submit</button>
+                            <p>Please <a href="{% url 'home' %}">log in</a> to submit your feedback.</p>
+                        {% endif %}
+                    </form>
+                    <p>
+                        {% if username %}
+                            Thank you for your feedback, {{ username }}!
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br><br><br><br>
+{% include 'footer.html' %}
+{%endblock%}

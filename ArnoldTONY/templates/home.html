@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{%block content%}
+{% load static %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet" />
+
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5" style="display:flex;">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">High-Quality Printing Services for Your Business Needs.</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">From business cards to banners, we bring your vision to life with top-tier printing solutions.</p>
+                </div>
+                <div class="aotlogo">
+                <img src="{% static 'Resources/aot logo.png' %}" alt="AOT Logo" height="250px" style="transform: translateY(-80px)">
+            </div>
+        </header>
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <h1>Best offers !!!</h1>
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+                    {% for product in products %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Sale badge-->
+                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{ product.image.url }}" alt="..." height="250px"/>
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ product.name }}</h5>
+                                    <!-- Product reviews-->
+                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                    </div>
+                                    <!-- Product price-->
+                                    <span class="text-muted text-decoration-line-through">&#8369 450</span>
+                                    <p>&#8369 {{ product.sale_price }}</p>
+                                    <br>
+                                    {{ product.description }}
+                                    <p>Stock: {{ product.stock }}</p>
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{%url 'product' product.id%}">View Product</a></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                    
+
+                    
+                </div>
+            </div>
+        </section>
+
+        <main>
+            <div class="row-1">
+                <div class="col-1">
+                    <h1 class="title">What We Offer</h1>
+                    <p class="sentence">We provide high-quality printing solutions tailored to your needs. Whether you require business cards, brochures, banners, or custom stationery, we ensure vibrant colors, sharp details, and professional finishes. Our services include digital printing, large-format printing, and personalized designs to make your brand stand out. Let us help bring your ideas to life with fast turnaround times and exceptional results!</p>
+                <div class="click">
+                    <a class="btn" href="{% url "home"%}">See More</a>
+                </div>
+                </div>
+                <div class="col-2">
+                    <div class="col-2-container col-2-1-bg" style="
+                    background-image: url('{% static 'css/Resources/dtf.jpg' %}');
+                    ">
+                        <h3>DTF</h3>
+                        <div class="col-2-text"><p class="sentence">Direct-to-Film (DTF) printing, a versatile solution for vibrant, long-lasting designs on a wide range of fabrics. Perfect for custom apparel with detailed prints and smooth finishes</p></div>
+                    </div>
+                    <div class="col-2-container col-2-2-bg">
+                        <h3>Tarpulin</h3>
+                        <div class="col-2-text"><p class="sentence">We offer durable and high-quality tarpaulin printing, ideal for outdoor banners, signage, and event displays. Designed to withstand the elements, our prints are vibrant and long-lasting.</p></div>
+                    </div>
+                    <div class="col-2-container col-2-3-bg">
+                        <h3>Flyers</h3>
+                        <div class="col-2-text"><p class="sentence">Create impactful flyers with our high-quality printing services. Perfect for promoting events, products, or services, our flyers feature sharp images and vibrant colors to grab attention and convey your message effectively.</p></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <section>
+            <div class="row-2">
+            </div>
+        </section>
+        
+        <section id="row-3">
+            <div class="row-3">
+                <h1>How It Works?</h1>
+                <div class="col-3-container" >
+                <div class="col-3">
+                    <h3 class="title">Select type of your service</h3>
+                    <p class="sentence">Choose from a wide range of professional printing services tailored to meet your needs. Whether you're looking for high-quality business cards, eye-catching banners, or custom promotional items, we offer fast and reliable solutions with customizable options to suit any project. Select your preferred service below to get started</p>
+                </div>
+                <div class="col-3">
+                    <h3 class="title">Select our pre-costumize design Or Upload your Design</h3>
+                    <p class="sentence">Choose from our professionally pre-designed templates for a quick and easy solution, or upload your custom design for a personalized touch. Whether you need a ready-made option or want to bring your unique vision to life, we’ve got you covered.</p>
+                </div>
+                <div class="col-3">
+                    <h3 class="title">Sit back and Relax just wait for it to be delivered</h3>
+                    <p class="sentence">Once you've placed your order, sit back and relax! We’ll handle the printing and deliver it right to your doorstep, hassle-free and on time.</p>
+                </div>
+            </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="row-4">
+                <h1 class="title">Bulk Order?</h1>
+                    <h3>We can Handle That!</h3>
+                <div class="col-4">
+                <div class="col-4-container">
+                    <div class="col-4-img c4-1">
+                        <div class="col-4-video">
+                            <video src="{% static 'css/Resources/tarpulin.mp4' %}" class="c4-video" type="video/mp4" muted autoplay loop></video>
+                    </div>
+                </div>
+        
+                    <div class="col-4-img c4-2">
+                        <div class="col-4-video">
+                            <video src="{% static 'css/Resources/tarpulin.mp4' %}" class="c4-video" type="video/mp4" muted autoplay loop></video>
+                        </div>
+                    </div>
+                    <div class="col-4-img c4-3">
+                        <div class="col-4-video">
+                            <video src="{% static 'css/Resources/tarpulin.mp4' %}" class="c4-video" type="video/mp4" muted autoplay loop></video>
+                        </div>
+                    </div>
+                    <div class="col-4-img c4-4">
+                        <div class="col-4-video">
+                            <video src="{% static 'css/Resources/tarpulin.mp4' %}" class="c4-video" type="video/mp4" muted autoplay loop></video>
+                        </div>
+                    </div>
+                    <div class="col-4-img c4-5">
+                        <div class="col-4-video">
+                            <video src="{% static 'css/Resources/tarpulin.mp4' %}" class="c4-video" type="video/mp4" muted autoplay loop></video>
+                        </div>
+                    </div>
+                    <div class="col-4-img c4-6">
+                        <a href=""><p>See More</p>
+                        <i class="fa-solid fa-circle-arrow-right"></i>
+                    </a>
+                    </div>
+            </div>
+            </div>
+            </div>
+        </section>
+        
+        <section id="row-5">
+            <div class="row-5">
+                <div class="col-5">
+                    <div class="col-5-text col-5-top"></div>
+                    <div class="col-5-text col-5-mid"></div>
+                    <div class="col-5-text col-5-bot"></div>
+            </div>
+            </div>
+        </section>
+{% include 'footer.html' %}
+{%endblock%}

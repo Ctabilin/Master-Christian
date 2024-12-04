@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+       
+
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shipped Items</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Completed Items</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="width: 50%;
+    margin: auto;
+    height: auto;
+    padding-top:100px;
+    padding-bottom:100px">
+
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Order</th>
+            <th scope="col">Price</th>
+            <th scope="col">Customer Email</th>
+            <th scope="col">Date Shipped</th>
+            <th scope="col">Shipping Status</th>
+          </tr>
+        </thead>
+        <tbody>
+            {%for item in orders%}
+          <tr>
+            <td><a href="{% url 'orders' item.id%}">{{item.id}}</a></td>
+            <td>{{item.amount_paid}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.date_shipped}}</td>
+            <td>
+              <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="shipping_status" value="false">
+                <input type="hidden" name="num" value={{ item.id }}>
+                <button type="Submit" class="btn btn-danger btn-sm">Mark Un-Shipped</button>
+            </form>
+            </td>
+
+          </tr>
+          {%endfor%}
+          
+        </tbody>
+      </table>
+    
+</div>
+
+{% include 'footer.html' %}
+{%endblock%}

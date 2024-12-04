@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container" style="max-width: 900px; margin: auto; padding-top: 100px;">
+  <div class="card mb-3">
+      <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="Product Image" style="max-width: 100%; height: auto;">
+          </div>
+          <div class="col-md-8">
+              <div class="card-body" style="overflow: hidden;">
+                  <div style="text-align:left; margin:auto; width: 80%;" >
+                      <h5 class="card-title">{{ product.name }}</h5>
+                      <p class="card-text">{{ product.description }}</p>
+
+                      {% if product.is_sale %}
+                      <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                      <div class="d-flex justify-content small text-warning mb-2">
+                          <div class="bi-star-fill"></div> Sale <div class="bi-star-fill"></div>
+                      </div>
+                      <!-- Product price-->
+                      <span class="text-muted text-decoration-line-through">&#8369 450</span>
+                      <p>&#8369 {{ product.sale_price }}</p>
+                      {% else %}
+                      <p>&#8369 {{ product.price }}</p>
+                      {% endif %}
+                      <p>Stock: {{ product.stock }}</p>
+                      <div class="row justify-content-left align-items-center">
+                        <div class="col-md-2 text-end" style="white-space: nowrap;">Quantity:</div>
+                        <div class="col-md-2">
+                            <select class="form-select form-select-sm" id="qty-cart">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+
+                      <!-- User Design Section -->
+                      {% if user_design %}
+                      <div class="user-design-section mt-4">
+                          <h4>Your Custom Design:</h4>
+                          <img src="{{ user_design.user_design_image.url }}" alt="User's Design" class="img-fluid" style="max-width: 100%; height: auto;">
+                          <p>Description: {{ user_design.user_description }}</p>
+                          <form method="POST" enctype="multipart/form-data">
+                              {% csrf_token %}
+                              <h5>Update Your Design:</h5>
+                              <div class="mb-3">
+                                  <label for="user_design_image" class="form-label">Upload a New Design (Optional)</label>
+                                  <input type="file" class="form-control" id="user_design_image" name="user_design_image">
+                              </div>
+                              <div class="mb-3">
+                                  <label for="user_description" class="form-label">Update Description (Optional)</label>
+                                  <textarea class="form-control" id="user_description" name="user_description" rows="3">{{ user_design.user_description }}</textarea>
+                              </div>
+                              <button type="submit" class="btn btn-success">Update Design</button>
+                          </form>
+                          <form method="POST">
+                              {% csrf_token %}
+                              <button type="submit" name="reset_design" class="btn btn-danger">Reset Design</button>
+                          </form>
+                      </div>
+                  {% else %}
+                      <div class="user-design-section mt-4">
+                          <h4>No Custom Design Yet</h4>
+                          <p>You can upload a design for this product!</p>
+                          <form method="POST" enctype="multipart/form-data">
+                              {% csrf_token %}
+                              <div class="mb-3">
+                                  <label for="user_design_image" class="form-label">Upload Your Design</label>
+                                  <input type="file" class="form-control" id="user_design_image" name="user_design_image">
+                              </div>
+                              <div class="mb-3">
+                                  <label for="user_description" class="form-label">Description</label>
+                                  <textarea class="form-control" id="user_description" name="user_description" rows="3"></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-success">Submit Design</button>
+                          </form>
+                      </div>
+                  {% endif %}
+                  
+                    
+                    
+                      <br><br>
+                      <button type="button" value="{{ product.id }}" class="btn btn-primary" id="add-cart">Add To Cart</button>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="user_design_image" class="form-label">Upload Your Design</label>
+        <input type="file" class="form-control" id="user_design_image" name="user_design_image">
+    </div>
+    <div class="mb-3">
+        <label for="user_description" class="form-label">Description</label>
+        <textarea class="form-control" id="user_description" name="user_description" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Submit Design</button>
+</form>
+
+
+  
+  <div align="right">
+    <h3><a href="{% url 'shop' %}" class="btn btn-secondary">Back</a></h3>
+  </div>
+</div>
+
+<script>
+  $(document).on('click','#add-cart',function(e){
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url 'cart_add' %}',
+      data: {
+        product_id: $('#add-cart').val(),
+        product_qty: $('#qty-cart option:selected').val(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+      success:function(json){
+        document.getElementById("cart_quantity").textContent = json.qty;
+        location.reload();
+      },
+      error:function(xhr, errmsg, err){
+        alert("Error adding to cart.");
+      }
+    });
+  });
+</script>
+
+{% include 'footer.html' %}
+{% endblock %}

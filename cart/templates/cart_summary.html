@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shopping Cart</h1>
+            <p class="lead fw-normal text-white-50 mb-0">View your cart</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="max-width: 900px; margin: 20px auto;">
+    <!-- Loop through products in the cart -->
+
+   
+{%if cart_products%}
+    {% for product in cart_products %}
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="Product Image">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <div style="text-align:left; margin:auto 60px;">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+
+                        {% if product.is_sale %}
+                        <!-- Sale badge and price info -->
+                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                        <div class="d-flex justify-content-small text-warning mb-2">
+                            <div class="bi-star-fill"></div> sale <div class="bi-star-fill"></div>
+                        </div>
+                        <span class="text-muted text-decoration-line-through">&#8369 450</span>
+                        <p>&#8369 {{ product.sale_price }}</p>
+                        {% else %}
+                        <p>&#8369 {{ product.price }}</p>
+                        {% endif %}
+
+                        <div class="row justify-content-left align-items-center">
+                          <p>Stock: {{ product.stock }}</p>
+                            <div class="col-md-2 text-end" style="white-space: nowrap;">Quantity:</div>
+                            <div class="col-md-2">
+                                <select class="form-select form-select-sm" id="select{{product.id}}" style=" padding: 0.2rem;">
+                                    <option selected>
+                                        {%for key, value in quantities.items%}
+                                            {%if key == product.id|slugify%}
+                                                {{value}}
+                                            {%endif%}
+                                        {%endfor%}
+                                    </option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="button" data-index="{{product.id}}" class="btn btn-secondary update-cart" style="margin-left:60px">Update</button>
+                    <button type="button" data-index="{{product.id}}" class="btn btn-danger delete-product" >Remove</button>
+
+                    {% if product.user_design_image %}
+                    <div class="user-design-section mt-4">
+                        <h4>Your Custom Design:</h4>
+                        <img src="{{ product.user_design_image.url }}" alt="User's Design" class="img-fluid" style="max-width: 100%; height: auto;">
+                        <p>Description: {{ product.user_description }}</p>
+                
+                      
+                        <br>
+                        <!-- Optionally add a reset design button -->
+                        <form method="POST">
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                  {% else %}
+                    <div class="user-design-section mt-4">
+                        <h4>No Custom Design Yet</h4>
+                        <p>You can upload a design for this product!</p>
+                        
+                    </div>
+                  {% endif %}
+                  <a href="{% url 'product' pk=product.pk %}" class="btn btn-success">Update Your Design</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div align="right">
+    <h3>Total: &#8369 {{totals}}</h3>
+    <a href="{% url 'checkout'%}" class="btn btn-success">Checkout</a>
+    </div>
+    {%else%}
+        There's Nothing In Your Cart.....
+        {% endif %}
+
+        
+</div>
+
+<script>
+    //update cart
+    $(document).on('click','.update-cart',function(e){
+      e.preventDefault();
+
+      var productid = $(this).data('index');
+
+      $.ajax({
+        type: 'POST',
+        url: '{% url 'cart_update' %}',
+        data: {
+          product_id: $(this).data('index'),
+          product_qty: $('#select' + productid + ' option:selected').text(),
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          action: 'post'
+        },
+        success:function(json){
+          //console.log(json)
+          //document.getElementById("cart_quantity").textContent = json.qty
+          location.reload();
+        },
+        error:function(xhr,errmsg,err){
+  
+        }
+      })
+    })
+
+    //delete item
+    $(document).on('click','.delete-product',function(e){
+        e.preventDefault();
+  
+        $.ajax({
+          type: 'POST',
+          url: '{% url 'cart_delete' %}',
+          data: {
+            product_id: $(this).data('index'),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+          },
+          success:function(json){
+            //console.log(json)
+            //document.getElementById("cart_quantity").textContent = json.qty
+            location.reload();
+          },
+          error:function(xhr,errmsg,err){
+    
+          }
+        })
+      })
+</script>
+{% include 'footer.html' %}
+{% endblock %}
+
+

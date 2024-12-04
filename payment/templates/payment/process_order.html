@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Processing Order.....</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Enter Your Payment Information</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="max-width: 900px; margin: 100px auto;">
+    
+    <div class="card">
+        <div class="card-header">
+          Order Summary
+        </div>
+        <div class="card-body">
+          
+            {% for product in cart_products %}
+
+                {{product.name}}:
+
+                {% if product.is_sale %}
+                    &#8369 {{ product.sale_price }}
+                {%else%}
+                    &#8369 {{ product.price }}
+
+                {%endif%}
+
+                <br>
+                <small>Quantity
+                {%for key, value in quantities.items%}
+                    {%if key == product.id|slugify%}
+                        {{value}}
+                    {%endif%}
+                {%endfor%}</small>
+                <br><br>
+
+            {%endfor%}
+
+            <strong>Total: &#8369 {{ totals }}</strong>
+            <br><br>
+            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a>
+
+        </div>
+      </div>
+      <br>
+      <div class="card">
+        <div class="card-header">
+          Shipping Information
+        </div>
+        <div class="card-body">
+
+          Name: &nbsp; {{shipping_info.shipping_full_name}}<br>
+          Email: &nbsp;{{shipping_info.shipping_email}}<br>
+          Phone:  &nbsp;{{shipping_info.shipping_phone}}<br>
+          Address: &nbsp;{{shipping_info.shipping_address1}}<br>
+          City: &nbsp;{{shipping_info.shipping_city}}<br>
+          Barangay: &nbsp;{{shipping_info.shipping_barangay}}<br>
+          Zipcode: &nbsp;{{shipping_info.shipping_zipcode}}<br>
+
+          <br>
+          <a href="{% url 'checkout'%}" class="btn btn-outline-secondary">Update Shipping Info</a>
+        </div>
+      </div>
+
+      <br>
+      <div class="card">
+        <div class="card-header">
+          Billing Information
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{% url 'process_order' %}">
+                {% csrf_token %}
+            {{billing_form.as_p}}
+        </div>
+      </div>
+
+      <br>
+      <button type="submit" class="btn btn-secondary">Pay Now</button>
+    </form>
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}
+
+

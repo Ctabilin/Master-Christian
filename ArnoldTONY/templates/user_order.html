@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+       
+
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Your Orders</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Don't Worry It will be there soon!</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="width: 50%;
+    margin: auto;
+    height: auto;
+    padding-top:100px;
+    padding-bottom:100px">
+
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Order</th>
+            <th scope="col">Price</th>
+            <th scope="col">Customer Email</th>
+            <th scope="col">Date Ordered</th>
+            <th scope="col">Shipping Status</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in orders %}
+<tr>
+    <td><a href="{% url 'orders' item.id %}">{{ item.id }}</a></td>
+    <td>{{ item.amount_paid }}</td>
+    <td>{{ item.email }}</td>
+    <td>{{ item.date_ordered }}</td>
+    <td>
+        {% if item.shipped %}
+            <span style="color:green;">Completed</span>
+        {% else %}
+        <span style="color:red;">Pending</span>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+        </tbody>
+      </table>
+
+      <div class="card" style="border:none;">
+        <div class="card-header" style="background-color: #f8d200; color: #212529;">
+          Reminder !!!
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p>Processing your item usually takes 3-5 days. Don't worry, we will contact you as soon as it is ready so we can arrange the delivery options.</p>
+            <footer class="blockquote-footer">Administration</footer>
+          </blockquote>
+        </div>
+      </div>
+</div>
+{% include 'footer.html' %}
+{%endblock%}

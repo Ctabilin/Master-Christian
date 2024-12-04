@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Checkout</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Review Your Order</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="max-width: 900px; margin: 100px auto;">
+
+
+    
+    <div class="card">
+        <div class="card-header">
+          Order Summary
+        </div>
+        <div class="card-body">
+          
+            {% for product in cart_products %}
+
+                {{product.name}}:
+
+                {% if product.is_sale %}
+                    &#8369 {{ product.sale_price }}
+                {%else%}
+                    &#8369 {{ product.price }}
+
+                {%endif%}
+
+                <br>
+                <small>Quantity
+                {%for key, value in quantities.items%}
+                    {%if key == product.id|slugify%}
+                        {{value}}
+                    {%endif%}
+                {%endfor%}</small>
+                <br><br>
+
+                {% if product.user_design_image %}
+                    <div class="user-design-section mt-4">
+                        <h4>Your Custom Design:</h4>
+                        <img src="{{ product.user_design_image.url }}" alt="User's Design" class="img-fluid" style="max-width: 100%; height: auto;">
+                        <p>Description: {{ product.user_description }}</p>
+
+                        <br>
+                        <!-- Optionally add a reset design button -->
+                        <form method="POST">
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                  {% else %}
+                    <div class="user-design-section mt-4">
+                        <h4>No Custom Design Yet</h4>
+                        <p>You can upload a design for this product!</p>
+
+                    </div>
+                  {% endif %}
+
+            {%endfor%}
+
+
+            <strong>Total: &#8369 {{ totals }}</strong>
+            <br><br>
+            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a>
+
+        </div>
+      </div>
+      
+    
+    {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+      <br><br>
+      <div class="card">
+        <div class="card-header">
+          Shipping Information
+        </div>
+        <div class="card-body">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'billing_info'%}">
+          {% csrf_token %}
+    
+          <!-- Shipping Form -->
+          {{ shipping_form.as_p }}
+
+        </div>
+      </div>
+      <br><br>
+      <div class="card" style="border:none;">
+        <div class="card-header" style="background-color: #f8d200; color: #212529;">
+          Reminder !!!
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p>"Since we don't offer delivery, you can pick up your items at our store, or contact us to arrange a third-party delivery service. Please note that the delivery fee will be shouldered by the customer."</p>
+            <footer class="blockquote-footer">Administration</footer>
+          </blockquote>
+        </div>
+      </div>
+      <br>
+      <br>
+      <button type="submit" class="btn btn-secondary">Continue To Billing</button><br><br>
+      <div align="left">
+        <h3><a href="{% url 'cart_summary' %}" class="btn btn-danger">Back</a></h3>
+      </div>
+    </form>
+</div>
+
+
+
+{% include 'footer.html' %}
+{% endblock %}
+
+

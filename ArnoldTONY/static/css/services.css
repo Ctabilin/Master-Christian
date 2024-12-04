@@ -1,0 +1,394 @@
+body{
+    margin: 0;
+}
+
+
+/*-----------------------------------------------header-------------------------*/
+#services-row-1{
+    width: 100%;
+    padding-top: 100px;
+}
+.row-1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    margin: auto;
+    overflow: hidden;
+    width: 90%;
+    border-radius: 20px;
+}
+.col-1{
+    flex-basis: 40%;
+    text-align: left;
+    margin-left: 50px;
+}
+.margin{
+    margin-bottom: 50px;
+}
+.col-2{
+    flex-basis: 60%;
+    transform: skewX(20deg) translateX(200px);
+    background-image: url("{% static 'Resources/flyers.png' %}");
+    background-position:center -100px;
+    border-radius: 20px;
+    background-size:100% cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.col-2::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(Resources/flyers.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: skew(-20deg);
+}
+#secvices-row-2{
+    width: 100%;
+    height: 500px;
+}
+.quote{
+    text-decoration: none;
+    color: black;
+    padding: 15px 25px;
+    border: solid 1px black;
+    border-radius: 20px;
+    background-color: #3c89ec;
+}
+
+/*-----------------------------------------------row-1-------------------------*/
+
+#services-row-2{
+    width: 100%;
+    padding-top: 100px;
+
+}
+.row-2{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 20px;
+    text-align: left;
+}
+.row-2-col-1{
+    flex-basis: 60%;
+    transform: skewX(-20deg) translateX(-200px);
+    border-radius: 20px;
+    background-image: url(Resources/bs-card.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+    overflow: hidden;
+}
+.row-2-col-1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(Resources/bs-card.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: skewX(20deg);
+}
+
+.row-2-col-2{
+    flex-basis: 40%;
+}
+/*-----------------------------------------------row-2-------------------------*/
+
+#services-row-3{
+    padding-top: 100px;
+    width: 100%;
+    height: 500px;
+}
+.row-3{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.row-3-col-1{
+    flex-basis: 40%;
+    text-align: left;
+    margin-left: 50px;
+}
+.row-3-col-2{
+    flex-basis: 60%;
+    height: 500px;
+    transform: skew(20deg) translateX(200px);
+    border-radius: 20px;
+    background-image: url(Resources/tarpaulin-2.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+.row-3-col-2::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(Resources/tarpaulin-2.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: skew(-20deg);
+}
+/*-----------------------------------------------row-3-------------------------*/
+
+#services-row-4{
+    width: 100%;
+    padding-top: 100px;
+
+}
+.row-4{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 20px;
+    text-align: left;
+}
+.row-4-col-1{
+    flex-basis: 60%;
+    transform: skewX(-20deg) translateX(-200px);
+    border-radius: 20px;
+    background-image: url(Resources/uv.webp);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+}
+.row-4-col-2{
+    flex-basis: 40%;
+}
+
+/*-----------------------------------------------row-4-------------------------*/
+#services-row-5{
+    padding-top: 100px;
+    width: 100%;
+    height: 500px;
+}
+.row-5{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.row-5-col-1{
+    flex-basis: 40%;
+    text-align: left;
+    margin-left: 50px;
+}
+.row-5-col-2{
+    flex-basis: 60%;
+    height: 500px;
+    transform: skew(20deg) translateX(200px);
+    border-radius: 20px;
+    background-image: url(Resources/standee.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.row-5-col-2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(Resources/standee.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: skew(-20deg);
+}
+
+/*-----------------------------------------------row-5-------------------------*/
+#services-row-6{
+    width: 100%;
+    padding-top: 100px;
+}
+.row-6{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 20px;
+
+}
+.row-6-col-1{
+    flex-basis: 60%;
+    transform: skewX(-20deg) translateX(-200px);
+    border-radius: 20px;
+    background-image: url(Resources/tshiry.webp);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+    overflow: hidden;
+}
+.row-6-col-1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(Resources/tshiry.webp);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: skewX(20deg);
+}
+.row-6-col-2{
+    flex-basis: 40%;
+}
+/*-----------------------------------------------row-6-------------------------*/
+
+#services-row-7{
+    width: 100%;
+    padding-top: 100px;
+    height: 500px;
+}
+.s-row-7{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.row-7-col-1{
+    flex-basis: 40%;
+    text-align: left;
+    margin-left: 50px;
+}
+.row-7-col-2{
+    flex-basis: 60%;
+    height: 500px;
+    transform: skew(20deg) translateX(200px);
+    border-radius: 20px;
+    background-image: url(Resources/mug.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+.row-7-col-2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(Resources/mug.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: skew(-20deg);
+}
+
+
+/*-----------------------------------------------row-7-------------------------*/
+
+#services-row-8{
+    padding-top: 100px;
+    width: 100%;
+}
+.row-8{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 20px;
+
+}
+.row-8-col-1{
+    flex-basis: 60%;
+    transform: skewX(-20deg) translateX(-200px);
+    border-radius: 20px;
+    background-image: url(Resources/wedding.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+}
+.row-8-col-2{
+    flex-basis: 40%;
+}
+
+/*-----------------------------------------------row-8-------------------------*/
+
+#services-row-9{
+    width: 100%;
+    height: 500px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+.row-9{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.row-9-col-1{
+    flex-basis: 40%;
+    text-align: left;
+    margin-left: 50px;
+}
+.row-9-col-2{
+    flex-basis: 60%;
+    height: 500px;
+    transform: skew(20deg) translateX(200px);
+    border-radius: 20px;
+    background-image: url(Resources/dtf\ print.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+/*-----------------------------------------------row-9-------------------------*/
+
+.service-container{
+    height: auto;
+}

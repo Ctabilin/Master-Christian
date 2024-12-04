@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Orders</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Status</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="width: 50%; margin: auto; height: auto; padding-top: 100px; padding-bottom: 100px">
+
+    <h3>Orders</h3>
+
+    <div class="card">
+        <div class="card-header">
+            Order {{ order.id }} - &#8369; {{ order.amount_paid }}
+        </div>
+        <div class="card-body">
+            Email: &nbsp;<strong>{{ order.email }}</strong><br>
+            {% if order.date_shipped %}
+                Date Shipped: &nbsp;<strong>{{ order.date_shipped }}</strong>
+            {% else %}
+                Date Ordered: <strong>{{ order.date_ordered }}</strong>
+            {% endif %}
+            <br>
+            Full Name:&nbsp;<strong>{{ order.full_name }}</strong><br>
+            Shipping Address:&nbsp;<strong>{{ order.shipping_address }}</strong>
+            <br>
+            Items:
+            {% for item in items %}
+                <hr>
+                <strong>{{ item.product }} - {{ item.quantity }} - &#8369; {{ item.price }}</strong><br>
+
+                <!-- Display User Design and Description -->
+                {% if item.product.user_design_image %}
+                    <div class="user-design-section mt-4">
+                        <h5>Your Custom Design:</h5>
+                        <img src="{{ item.product.user_design_image.url }}" alt="User's Design" class="img-fluid" style="max-width: 100%; height: auto;">
+                        <p>Description: {{ item.product.user_description }}</p>
+                    </div>
+                {% else %}
+                    <p>No custom design uploaded for this item.</p>
+                {% endif %}
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+
+    {% if user.is_superuser %}
+        {% if not order.shipped %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="shipping_status" value="true">
+                <button type="submit" class="btn btn-success">Mark As Shipped</button>
+            </form>
+        {% else %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="shipping_status" value="false">
+                <button type="submit" class="btn btn-danger">Mark As Not Shipped</button>
+            </form>
+        {% endif %}
+    {% endif %}
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}

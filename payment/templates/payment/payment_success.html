@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+       
+
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Thank You For Your Purchase</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Have a nice day!!</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="width: 50%;
+    margin: auto;
+    height: auto;
+    padding-top:100px;
+    padding-bottom:100px">
+
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <h3>Thank you for your purchase!</h3>
+            <h2>Payment Successful</h2>
+    <p>Thank you for your purchase! Your payment was successfully processed.</p>
+    
+    <h3>Items Purchased:</h3>
+    <ul>
+        {% for product, quantity in zipped_items %}
+            <li>{{ product.name }} - Quantity: {{ quantity }} - Price: {{ product.price }} PHP</li>
+        {% endfor %}
+    </ul>
+    
+    <p><strong>Total:</strong> {{ total_amount }} PHP</p>
+    
+    <h3>Shipping Information:</h3>
+    <p>{{ shipping_info }}</p>
+    <hr>
+          <p>Kindly take a screenshot of your receipt and send it to our email address. Once we receive it, we will guide you on how to collect your items, as we currently do not offer delivery services. We appreciate your understanding, valued customer.</p>
+          <footer class="blockquote-footer">Administration</footer>
+        </blockquote>
+      </div>
+    </div>
+
+    
+    <h3>Total Sales: {{ total_sales }} PHP</h3>
+
+
+    
+    
+</div>
+
+{% include 'footer.html' %}
+{%endblock%}
